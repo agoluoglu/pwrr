@@ -124,6 +124,7 @@ ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
 ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
 ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
 
+
 % --- Tell Serpent to apply a symmetry to the lattice "lat1"
 %     Symmetry axis is the z-axis (3)
 %     Symmetry boundary condition is reflective (2)
@@ -133,6 +134,7 @@ ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
 
 set usym lat1 3 2 0.0 0.0 270 45
 
+
 % --- A square surface around the fuel assembly
 
 surf s1 sqc  0.0 0.0 10.752
@@ -140,12 +142,22 @@ surf s1 sqc  0.0 0.0 10.752
 % --- Cell c1 belongs to the base universe 0, is filled with the lattice lat1
 %     and covers everything inside surface s1
 
-cell c1 0 fill lat1     -s1
+cell c1 FA fill lat1     -s1
 
 % --- Cell c2 belongs to the base universe 0, is defined as an "outside" cell
 %     and covers everything outside surface s1
 
-cell c2 0 outside        s1
+cell c2 FA outside          s1
+
+
+lat lat2 1 0.0 0.0 2 2 21.504
+FA FA
+FA FA
+
+surf s2 sqc 0.0 0.0 21.504
+
+cell c3 0 fill lat2       -s2
+cell c4 0 outside        s2
 
 /******************
  * Run parameters *
@@ -172,6 +184,7 @@ plot 3 700 700
 mesh 3 700 700
 
 
+set lost -1
 
 PIN POWER DISTRIBUTION
 
