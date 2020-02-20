@@ -43,6 +43,20 @@ mat Zircaloy4 -6.56000E+00 tmp 610
 50122.03c  -6.63497E-04
 50124.03c  -8.43355E-04
 
+% --- Graphite consisting solely of carbon-12
+%     Flagged as bound scatterer with the "moder"-card
+
+mat graphite -1.719 moder graphiteLib 6012 rgb 100 250 50
+ 6012.03c          1.00
+
+% --- Thermal scattering libraries for graphite at room temperature
+
+therm graphiteLib grj3.00t
+
+% --- Beryllium reflector
+%mat beryllium 
+% need to figure out density and composition and temperature
+
 % --- Coolant is water with 650 ppm soluble boric acid added
 %     The temperature of water is 583 K
 %     Density is calculated based on a pressure of 15.5 MPa
@@ -139,25 +153,64 @@ set usym lat1 3 2 0.0 0.0 270 45
 
 surf s1 sqc  0.0 0.0 10.752
 
-% --- Cell c1 belongs to the base universe 0, is filled with the lattice lat1
+% --- Cell c1 belongs to the fuel assembly universe, is filled with the lattice lat1
 %     and covers everything inside surface s1
 
 cell c1 FA fill lat1     -s1
 
-% --- Cell c2 belongs to the base universe 0, is defined as an "outside" cell
+% --- Cell c2 belongs to the fuel assembly universe, is defined as an "outside" cell
 %     and covers everything outside surface s1
 
 cell c2 FA outside          s1
 
 
-lat lat2 1 0.0 0.0 2 2 21.504
-FA FA
-FA FA
+% --- lattice lat2 of fuel assemblies
 
-surf s2 sqc 0.0 0.0 21.504
+lat lat2 1 0.0 0.0 19 19 21.504
+ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww FA FA FA ww ww ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww FA FA FA FA FA ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww FA FA FA FA FA FA FA ww ww ww
+ww ww ww ww ww ww ww ww ww FA FA FA FA FA FA FA ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww FA FA FA FA ww ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww ww FA FA ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
+ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww ww
 
-cell c3 0 fill lat2       -s2
-cell c4 0 outside        s2
+set usym lat2 3 2 0.0 0.0 270 45
+
+% --- A cylinder around the core
+
+surf s2 cylz 0.0 0.0 200
+
+% --- Cylinders to describe graphite reflector
+
+surf s3 cylz 0.0 0.0 200
+surf s4 cylz 0.0 0.0 220 
+
+% --- Cell c3 belongs to the base universe 0, is filled with lattice lat2
+%     and covers everything inside surface s2
+
+cell c3 0 fill lat2      -s2
+cell c6 0 water           s2 -s3
+% --- Cell c4 belongs to base universe 0, creates graphite reflector ring
+
+cell c4 0 graphite        s3 -s4
+
+% --- Cell c5 belongs to the base universe 0, is defined as an "outside" cell
+%     and covers everything outside surface s2
+
+cell c5 0 outside         s4
 
 /******************
  * Run parameters *
@@ -169,15 +222,15 @@ set power 42000
 
 % --- Boundary condition (1 = black, 2 = reflective, 3 = periodic)
 
-set bc 2
+%set bc 2
 
 % --- Neutron population: 10000 neutrons per cycle, 100 active / 20 inactive cycles
 
 set pop 10000 100 20
 
-% --- XY-plot (3), which is 700 by 700 pixels and covers the whole geometry
+% --- XY-plot (3), which is 700 by 700 pixels and covers the whole geometry (now -100<(x,y)<100)
 
-plot 3 700 700
+plot 3 700 700 0.0 -250 250 -250 250
 
 % --- XY-meshplot (3), which is 700 by 700 pixels and covers the whole geometry
 

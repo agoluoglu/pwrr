@@ -26,7 +26,7 @@ A Continuous-energy Monte Carlo Reactor Physics Burnup Calculation Code
 
  - Default data path set to: "/opt/serpent/xsdata"
 
-Begin calculation on Wed Feb 19 18:04:24 2020
+Begin calculation on Thu Feb 20 17:16:35 2020
 
 Reading input file "pwrr.inp"...
 
@@ -38,10 +38,13 @@ OK.
 
 Counting geometry zones...
 
+
+ ***** Warning: Universe ww is used at multiple levels (4 and 2)
+
 The geometry consists of 5 levels:
 
-Level 0 size: max 2 zones
-Level 1 size: max 4 zones
+Level 0 size: max 4 zones
+Level 1 size: max 361 zones
 Level 2 size: max 2 zones
 Level 3 size: max 361 zones
 Level 4 size: max 4 zones
@@ -62,8 +65,11 @@ Dividing materials into depletion zones...
 
 Material Fuel:
 
- - 156 cells
- - 156 depletion zones in total
+ - 1092 cells
+ - 1092 depletion zones in total
+
+Sorting lists (this may take a while)...
+OK.
 
 Counting cells...
 OK.
@@ -81,8 +87,8 @@ Processing data for group constant generation:
 
 Calculating material volumes by sampling points...
 
-Estimated calculation time: 0:00:06
-Realized calculation time:  0:00:09
+Estimated calculation time: 0:00:02
+Realized calculation time:  0:00:02
 
 
 OK.
@@ -93,7 +99,7 @@ Plotting geometry:
  100% complete
 
 
-***** Wed Feb 19 18:04:33 2020
+***** Thu Feb 20 17:16:38 2020
 
 Input error:
 
