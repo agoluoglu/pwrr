@@ -8,7 +8,7 @@
 % --- 5.0 wt-% enriched UO2
 %     Temperature is set to 950 K
 
-mat Fuel  -10.97 tmp 950.0 rgb 255 255 150
+mat Fuel  -10.97 tmp 950.0 rgb 255 255 150 burn 1
 92235.09c       -0.04644492
 92238.09c       -0.83505247
  8016.09c       -0.11850261
@@ -297,4 +297,22 @@ set pcc leli 10 10
 
 % --- Decay data library needs to be specified for burnup calculations
 
-set declib "sss_jeff31.dec"
+%set declib "sss_jeff31.dec"
+
+set acelib "/opt/serpent/xsdata/sss_endfb7u.xsdata"
+set declib "/opt/serpent/xsdata/sss_endfb7.dec"
+set nfylib "/opt/serpent/xsdata/sss_endfb7.nfy"
+
+
+/*************************************************
+ * Settings for the critical boron concentration *
+ *************************************************/
+% 20 - additional 20 inactive cycles 
+% 1.0  - required multiplication factor 
+% 2 - number of nuclides which concentration is searched
+% 50100 & 50110 - boron 10 and 11 
+% 1 - number of materials which consists absorbers 
+% water - name of material which contains absorbers
+
+set iter nuc 20 1.0 2 50100 50110 1 water
+
