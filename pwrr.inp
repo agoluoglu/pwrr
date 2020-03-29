@@ -13,7 +13,6 @@ mat Fuel  -10.97 tmp 950.0 rgb 255 255 150 burn 1
 92238.09c       -0.83505247
  8016.09c       -0.11850261
 
-
 % --- Cladding material Zircaloy-4
 %     [Composition from PNNL-15870, Rev. 1]
 
@@ -53,9 +52,6 @@ mat graphite -1.719 moder graphiteLib 6012 rgb 100 250 50
 
 therm graphiteLib grj3.00t
 
-% --- Beryllium reflector
-%mat beryllium 
-% need to figure out density and composition and temperature
 
 % --- Coolant is water with 650 ppm soluble boric acid added
 %     The temperature of water is 583 K
@@ -203,6 +199,7 @@ surf s4 cylz 0.0 0.0 220
 
 cell c3 0 fill lat2      -s2
 cell c6 0 water           s2 -s3
+
 % --- Cell c4 belongs to base universe 0, creates graphite reflector ring
 
 cell c4 0 graphite        s3 -s4
@@ -224,9 +221,9 @@ set power 42000
 
 %set bc 2
 
-% --- Neutron population: 10000 neutrons per cycle, 100 active / 20 inactive cycles
+% --- Neutron population: 10000 neutrons per cycle, 1000 active / 200 inactive cycles
 
-set pop 10000 100 20
+set pop 10000 1000 200
 
 % --- XY-plot (3), which is 700 by 700 pixels and covers the whole geometry (now -100<(x,y)<100)
 
@@ -255,12 +252,13 @@ det pinpowers dr -8 void dx -10.71 10.71 17 dy -10.71 10.71 17
  * Settings for the burnup calculation *
  ***************************************/
 
-% --- Burnup points for the burnup calculation (in MWd/kgU)
+% --- Burnup points for the burnup calculation
+%     (in days, would be MWd/kgU if using butot instead of daytot)
 %     Too long intervals between the burnup points will decrease the
 %     accuracy of the burnup calculation, especially during the burn-out 
 %     of burnable absorber 
 
-dep butot 0.1  0.5  1  3  5  7  9  11  13  15  17  19
+dep daytot 0.1  0.5  1  3  5  7  9  11  13  15  17  19
 
 % --- Material division for burnup calculation
 %     Treat different pins of fuelNoGad as separate depletion zones (sep 1)
@@ -308,11 +306,11 @@ set nfylib "/opt/serpent/xsdata/sss_endfb7.nfy"
  * Settings for the critical boron concentration *
  *************************************************/
 % 20 - additional 20 inactive cycles 
-% 1.0  - required multiplication factor 
+% 1.005  - required multiplication factor 
 % 2 - number of nuclides which concentration is searched
 % 50100 & 50110 - boron 10 and 11 
 % 1 - number of materials which consists absorbers 
 % water - name of material which contains absorbers
 
-set iter nuc 20 1.0 2 50100 50110 1 water
+set iter nuc 20 1.005 2 50100 50110 1 water
 
